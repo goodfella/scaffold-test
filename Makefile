@@ -6,11 +6,11 @@ CPPFLAGS += CPPFLAGS
 SRC_CFLAGS += -DSRC_CFLAGS
 SRC_CXXFLAGS += -DSRC_CXXFLAGS
 
-PROG_CFLAGS += -DPROG_CFLAGS
-PROG_CXXFLAGS += -DPROG_CXXFLAGS -Wl$(comma)--defsym$(comma)PROG_CXXFLAGS="1"
+PROG_CXXFLAGS += -Wl$(comma)--defsym=PROG_CXXFLAGS="1"
+PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS="2"
 
-SHLIB_CFLAGS += -DSHLIB_CFLAGS
-SHLIB_CXXFLAGS += -DSHLIB_CXXFLAGS
+SHLIB_CFLAGS += -Wl$(comma)--defsym=SHLIB_CFLAGS="1"
+SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
 
 # the include directories
 INCDIRS := cxxshlib1/include cxxshlib2/include cxxshlib3/include
@@ -24,21 +24,27 @@ include scaffold/scaffold.mk
 SRC_CPPFLAGS += SRC_CPPFLAGS
 
 
-.PHONY: all check-prerules clean-prerule-files
+.PHONY: all check-prerules check-cxxprog-flags clean-prerule-files
 
-all: check-prerules
+all: check-prerules check-cxxprog-flags check-cxxshlib-flags
 
 check-prerules:
 	@stat cxxprog1-prerule-file > /dev/null
 	@stat cxxshlib1-prerule-file > /dev/null
 
-clean: clean-prerule-files
-	@find -name '*~' | xargs -n 1 rm -f
+check-cxxprog-flags:
+	readelf -a cxxprog1/cxxprog1 | grep -q 'PROG_CFLAGS'
+	readelf -a cxxprog1/cxxprog1 | grep -q 'PROG_CXXFLAGS'
+
+check-cxxshlib-flags:
+	readelf -a cxxshlib1/libcxxshlib1.so | grep -q 'SHLIB_CFLAGS'
+	readelf -a cxxshlib1/libcxxshlib1.so | grep -q 'SHLIB_CXXFLAGS'
+
+clean-emacs-backup-files:
+	find -name '*~' | xargs -n 1 rm -f
+
+clean: clean-prerule-files clean-emacs-backup-files
 
 clean-prerule-files:
 	rm -f cxxprog1-prerule-file
 	rm -f cxxshlib1-prerule-file
-
-cxxshlib1/module.mk.pcm: cxxshlib1/module.mk
-	cat $^ > $@
-	MODULE=$^ $(MAKE) -s -f scaffold/print-module.mk >> $@
