@@ -15,13 +15,11 @@ SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
 # the include directories
 INCDIRS := cxxshlib1/include cxxshlib2/include cxxshlib3/include
 
-MAKEFILE_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
-
 # module.mk files
-SCAFFOLD_MODULES := $(shell find $(MAKEFILE_DIR) -name 'module.mk')
+SCAFFOLD_MODULES := $(shell find -name 'module.mk')
 
 # include the build system
-include $(MAKEFILE_DIR)scaffold/scaffold.mk
+include $(dir $(realpath $(MAKEFILE_LIST)))scaffold/scaffold.mk
 
 SRC_CPPFLAGS += SRC_CPPFLAGS
 
