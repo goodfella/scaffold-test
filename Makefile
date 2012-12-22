@@ -15,11 +15,13 @@ SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
 # the include directories
 INCDIRS := cxxshlib1/include cxxshlib2/include cxxshlib3/include
 
+MAKEFILE_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
 # module.mk files
-SCAFFOLD_MODULES := $(shell find -name 'module.mk')
+SCAFFOLD_MODULES := $(shell find $(MAKEFILE_DIR) -name 'module.mk')
 
 # include the build system
-include scaffold/scaffold.mk
+include $(MAKEFILE_DIR)scaffold/scaffold.mk
 
 SRC_CPPFLAGS += SRC_CPPFLAGS
 
@@ -33,12 +35,12 @@ check-prerules:
 	@stat cxxshlib1-prerule-file > /dev/null
 
 check-cxxprog-flags:
-	readelf -a cxxprog1/cxxprog1 | grep -q 'PROG_CFLAGS'
-	readelf -a cxxprog1/cxxprog1 | grep -q 'PROG_CXXFLAGS'
+	readelf -a $(SCAFFOLD_BUILD_DIR)cxxprog1/cxxprog1 | grep -q 'PROG_CFLAGS'
+	readelf -a $(SCAFFOLD_BUILD_DIR)cxxprog1/cxxprog1 | grep -q 'PROG_CXXFLAGS'
 
 check-cxxshlib-flags:
-	readelf -a cxxshlib1/libcxxshlib1.so | grep -q 'SHLIB_CFLAGS'
-	readelf -a cxxshlib1/libcxxshlib1.so | grep -q 'SHLIB_CXXFLAGS'
+	readelf -a $(SCAFFOLD_BUILD_DIR)cxxshlib1/libcxxshlib1.so | grep -q 'SHLIB_CFLAGS'
+	readelf -a $(SCAFFOLD_BUILD_DIR)cxxshlib1/libcxxshlib1.so | grep -q 'SHLIB_CXXFLAGS'
 
 clean-emacs-backup-files:
 	find -name '*~' | xargs -n 1 rm -f
