@@ -1,5 +1,5 @@
 check-prerule-files: $(call module_build_path,cxxprog1-prerule-file)
-check-cxxprog-flags: PARAMS += $(call module_build_path,cxxprog1),
+check-cxxprog-flags: PARAMS += $(call module_build_path,cxxprog1),ATTRIBUTE_CFLAGS
 
 $(call module_build_path,cxxprog1-prerule-file):
 	@touch $@
