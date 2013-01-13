@@ -48,8 +48,10 @@ check-prerule-files:
 check-cxxprog-flags:
 	@./check-bin-flags.sh -f 'PROG_CFLAGS' -f 'PROG_CXXFLAGS' -- $(PARAMS) > /dev/null
 
-# The files to check are the prerequisites defined in the module.mk
-# files
+# The PARAMS variable contains space delimited values with the format
+# given below:
+
+# <bin-path>,<comma-delimited-flags>
 check-cxxshlib-flags:
 	@./check-bin-flags.sh -f 'SHLIB_CFLAGS' -f 'SHLIB_CXXFLAGS' -- $(PARAMS) > /dev/null
 
