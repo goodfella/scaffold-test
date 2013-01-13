@@ -13,7 +13,7 @@ SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
 SHLIB_CFLAGS += -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
 
 # the include directories
-INCDIRS := cxxshlib1/include cxxshlib2/include cxxshlib3/include
+INCDIRS := cxxshlib1/include cxxshlib2/include cxxprog1/cxxshlib3/include
 
 # module.mk files
 SCAFFOLD_MODULES := $(shell find -name 'module.mk')
