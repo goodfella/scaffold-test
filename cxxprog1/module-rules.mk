@@ -1,2 +1,7 @@
-make-cxxprog1-prerule-file:
-	@touch cxxprog1-prerule-file
+check-prerule-files: $(call module_build_path,cxxprog1-prerule-file)
+check-cxxprog-flags: PARAMS += $(call module_build_path,cxxprog1),
+
+$(call module_build_path,cxxprog1-prerule-file):
+	@touch $@
+
+clean-prerule-files: FILES += $(call module_build_path,cxxprog1-prerule-file)
