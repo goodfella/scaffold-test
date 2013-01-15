@@ -1,10 +1,6 @@
 #include <iostream>
 #include "cxxshlib1.h"
 
-#ifndef ATTRIBUTE_SRC_CPPFLAGS
-#error missing ATTRIBUTE_SRC_CPPFLAG in cppflags attribute
-#endif
-
 #ifndef ATTRIBUTE_SRC_CFLAGS
 #error missing -DATTRIBUTE_SRC_CFLAGS in cflags attribute
 #endif

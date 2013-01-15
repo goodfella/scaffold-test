@@ -1,7 +1,6 @@
 # global cxx flags used by all g++ invocations
 CFLAGS += -DCFLAGS
 CXXFLAGS += -DCXXFLAGS
-CPPFLAGS += CPPFLAGS
 
 SRC_CFLAGS += -DSRC_CFLAGS
 SRC_CXXFLAGS += -DSRC_CXXFLAGS

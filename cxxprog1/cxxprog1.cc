@@ -1,9 +1,5 @@
 #include "cxxshlib3.h"
 
-#ifndef ATTRIBUTE_SRC_CPPFLAGS
-#error missing ATTRIBUTE_SRC_CPPFLAG in cppflags attribute
-#endif
-
 #ifndef ATTRIBUTE_SRC_CFLAGS
 #error missing -DATTRIBUTE_SRC_CFLAGS in cflags attribute
 #endif
@@ -22,14 +18,6 @@
 
 #ifndef SRC_CXXFLAGS
 #error missing -DSRC_CXXFLAGS
-#endif
-
-#ifndef SRC_CPPFLAGS
-#error missing -DSRC_CPPFLAGS
-#endif
-
-#ifndef CPPFLAGS
-#error missing -DCPPFLAGS
 #endif
 
 int main()
