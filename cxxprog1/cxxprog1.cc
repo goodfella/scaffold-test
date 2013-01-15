@@ -20,6 +20,22 @@
 #error missing -DSRC_CXXFLAGS
 #endif
 
+#ifndef CFLAGS2
+#error missing -CFLAGS2
+#endif
+
+#ifndef CXXFLAGS2
+#error missing -DCXXFLAGS2
+#endif
+
+#ifndef SRC_CFLAGS2
+#error missing -DSRC_CFLAGS2
+#endif
+
+#ifndef SRC_CXXFLAGS2
+#error missing -DSRC_CXXFLAGS2
+#endif
+
 int main()
 {
     cxxshlib3::test1();

@@ -1,5 +1,17 @@
 # the include directories
 INCDIRS := cxxshlib1/include
+CFLAGS := -DCFLAGS
+CXXFLAGS += -DCXXFLAGS
+
+SRC_CFLAGS := -DSRC_CFLAGS
+SRC_CXXFLAGS := -DSRC_CXXFLAGS
+
+PROG_CXXFLAGS := -Wl$(comma)--defsym=PROG_CXXFLAGS="1"
+PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS="2"
+
+SHLIB_CXXFLAGS := -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
+SHLIB_CFLAGS := -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
+
 
 # module.mk files
 SCAFFOLD_MODULES := $(shell find -name 'module.mk')
@@ -17,17 +29,17 @@ include $(dir $(realpath $(MAKEFILE_LIST)))scaffold/scaffold.mk
 INCDIRS += cxxshlib2/include
 
 # global cxx flags used by all g++ invocations
-CFLAGS += -DCFLAGS
-CXXFLAGS += -DCXXFLAGS
+CFLAGS += -DCFLAGS2
+CXXFLAGS += -DCXXFLAGS2
 
-SRC_CFLAGS += -DSRC_CFLAGS
-SRC_CXXFLAGS += -DSRC_CXXFLAGS
+SRC_CFLAGS += -DSRC_CFLAGS2
+SRC_CXXFLAGS += -DSRC_CXXFLAGS2
 
-PROG_CXXFLAGS += -Wl$(comma)--defsym=PROG_CXXFLAGS="1"
-PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS="2"
+PROG_CXXFLAGS += -Wl$(comma)--defsym=PROG_CXXFLAGS2="3"
+PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS2="4"
 
-SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
-SHLIB_CFLAGS += -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
+SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS2="3"
+SHLIB_CFLAGS += -Wl$(comma)--defsym=SHLIB_CFLAGS2="4"
 
 .PHONY: post-build-checks check-prerule-files check-cxxprog-flags check-cxxshlib-flags clean-prerule-files
 
@@ -37,21 +49,21 @@ all: post-build-checks
 # The files to check are the prerequisites defined in the module.mk
 # files
 check-prerule-files:
-	@stat $^ 2>&1 > /dev/null
+	stat $^ 2>&1 > /dev/null
 
 # The PARAMS variable contains space delimited values with the format
 # given below:
 
 # <bin-path>,<comma-delimited-flags>
 check-cxxprog-flags:
-	@./check-bin-flags.sh -f 'PROG_CFLAGS' -f 'PROG_CXXFLAGS' -- $(PARAMS) > /dev/null
+	./check-bin-flags.sh -f 'PROG_CFLAGS2' -f 'PROG_CXXFLAGS2' -f 'PROG_CFLAGS' -f 'PROG_CXXFLAGS' -- $(PARAMS) > /dev/null
 
 # The PARAMS variable contains space delimited values with the format
 # given below:
 
 # <bin-path>,<comma-delimited-flags>
 check-cxxshlib-flags:
-	@./check-bin-flags.sh -f 'SHLIB_CFLAGS' -f 'SHLIB_CXXFLAGS' -- $(PARAMS) > /dev/null
+	./check-bin-flags.sh -f 'SHLIB_CFLAGS2' -f 'SHLIB_CXXFLAGS2' -f 'SHLIB_CFLAGS' -f 'SHLIB_CXXFLAGS' -- $(PARAMS) > /dev/null
 
 clean-emacs-backup-files:
 	find -name '*~' | xargs -n 1 rm -f
