@@ -27,8 +27,18 @@ clean-prerule-files: FILES :=
 # include the build system
 include $(dir $(realpath $(MAKEFILE_LIST)))scaffold/scaffold.mk
 
-SRC_CPPFLAGS += SRC_CPPFLAGS
+# global cxx flags used by all g++ invocations
+CFLAGS += -DCFLAGS
+CXXFLAGS += -DCXXFLAGS
 
+SRC_CFLAGS += -DSRC_CFLAGS
+SRC_CXXFLAGS += -DSRC_CXXFLAGS
+
+PROG_CXXFLAGS += -Wl$(comma)--defsym=PROG_CXXFLAGS="1"
+PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS="2"
+
+SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
+SHLIB_CFLAGS += -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
 
 .PHONY: post-build-checks check-prerule-files check-cxxprog-flags check-cxxshlib-flags clean-prerule-files
 
