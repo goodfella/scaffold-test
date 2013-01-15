@@ -1,13 +1,13 @@
 # the include directories
 INCDIRS := cxxshlib1/include
 CFLAGS := -DCFLAGS
-CXXFLAGS += -DCXXFLAGS
+CXXFLAGS := -DCXXFLAGS
 
 SRC_CFLAGS := -DSRC_CFLAGS
 SRC_CXXFLAGS := -DSRC_CXXFLAGS
 
 PROG_CXXFLAGS := -Wl$(comma)--defsym=PROG_CXXFLAGS="1"
-PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS="2"
+PROG_CFLAGS := -Wl$(comma)--defsym=PROG_CFLAGS="2"
 
 SHLIB_CXXFLAGS := -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
 SHLIB_CFLAGS := -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
