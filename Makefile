@@ -1,18 +1,5 @@
-# global cxx flags used by all g++ invocations
-CFLAGS += -DCFLAGS
-CXXFLAGS += -DCXXFLAGS
-
-SRC_CFLAGS += -DSRC_CFLAGS
-SRC_CXXFLAGS += -DSRC_CXXFLAGS
-
-PROG_CXXFLAGS += -Wl$(comma)--defsym=PROG_CXXFLAGS="1"
-PROG_CFLAGS += -Wl$(comma)--defsym=PROG_CFLAGS="2"
-
-SHLIB_CXXFLAGS += -Wl$(comma)--defsym=SHLIB_CXXFLAGS="1"
-SHLIB_CFLAGS += -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
-
 # the include directories
-INCDIRS := cxxshlib1/include cxxshlib2/include
+INCDIRS := cxxshlib1/include
 
 # module.mk files
 SCAFFOLD_MODULES := $(shell find -name 'module.mk')
@@ -26,6 +13,8 @@ clean-prerule-files: FILES :=
 
 # include the build system
 include $(dir $(realpath $(MAKEFILE_LIST)))scaffold/scaffold.mk
+
+INCDIRS += cxxshlib2/include
 
 # global cxx flags used by all g++ invocations
 CFLAGS += -DCFLAGS
