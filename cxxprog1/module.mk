@@ -5,9 +5,9 @@ cxxprog1_srcs := cxxprog1.cc
 cxxprog1_cflags := -Wl$(comma)--defsym=ATTRIBUTE_CFLAGS="1"
 cxxprog1_srcs_cflags := -DATTRIBUTE_SRC_CFLAGS
 cxxprog1_shlibs := cxxshlib3 cxxshlib2 cxxshlib1
-cxxprog1_pre_rules := $(call module_build_path,cxxprog1-prerule-file)
+cxxprog1_pre_rules := $(call module_build_fullpath,cxxprog1-prerule-file)
 
 cxxshlib3_srcs := cxxshlib3/src/test1.cc cxxshlib3/src/test2.cc cxxshlib3/src/test3.cc
 cxxshlib3_shlibs := cxxshlib2
 
-cxxshlib3_set_incdirs := $(call module_source_path,cxxshlib3/include)
+cxxshlib3_set_incdirs := $(call module_source_relpath,cxxshlib3/include)
