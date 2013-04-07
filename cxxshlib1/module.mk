@@ -6,3 +6,4 @@ cxxshlib1_cflags := -Wl$(comma)--defsym=ATTRIBUTE_CFLAGS="1"
 cxxshlib1_srcs_cppflags := ATTRIBUTE_SRC_CPPFLAGS
 cxxshlib1_srcs_cflags := -DATTRIBUTE_SRC_CFLAGS
 cxxshlib1_pre_rules := $(call module_build_fullpath,cxxshlib1-prerule-file)
+module_rules := module-rules.mk
