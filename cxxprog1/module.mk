@@ -2,6 +2,7 @@ local_cxx_progs := cxxprog1
 local_cxx_shlibs := cxxshlib3
 
 cxxprog1_srcs := cxxprog1.cc
+cxxprog1_objs := cxxprog-obj.o
 cxxprog1_cflags := -Wl$(comma)--defsym=ATTRIBUTE_CFLAGS="1"
 cxxprog1_srcs_cflags := -DATTRIBUTE_SRC_CFLAGS
 cxxprog1_shlibs := cxxshlib3 cxxshlib2 cxxshlib1
