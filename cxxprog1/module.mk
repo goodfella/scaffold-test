@@ -11,5 +11,5 @@ cxxprog1_pre_rules := $(call module_build_fullpath,cxxprog1-prerule-file)
 cxxshlib3_srcs := cxxshlib3/src/test1.cc cxxshlib3/src/test2.cc cxxshlib3/src/test3.cc
 cxxshlib3_shlibs := cxxshlib2
 
-cxxshlib3_set_incdirs := $(call module_source_relpath,cxxshlib3/include)
+cxxshlib3_set_incdirs := $(call module_relpath,cxxshlib3/include)
 module_rules := module-rules.mk module-rules2.mk
