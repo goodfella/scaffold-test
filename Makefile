@@ -1,5 +1,5 @@
 # the include directories
-INCDIRS := cxxshlib1/include
+INCDIRS = cxxshlib1/include
 CFLAGS := -DCFLAGS
 CXXFLAGS := -DCXXFLAGS
 
