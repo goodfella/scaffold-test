@@ -1,0 +1,60 @@
+define obj_clean_check
+@if [ -n "$$(find -name '*.o')" ]; then echo 'object files exist after clean'; exit 1; fi
+endef
+
+define pmk_clean_check
+@if [ -n "$$(find -name '*.pmk')" ]; then echo 'pmk files exist after clean'; exit 1; fi
+endef
+
+BUILD_DIR := test
+
+.PHONY: all
+all: all-clean-all-test all-clean-test all-clean-pmk-test cxxprog-header-depends-test
+
+.PHONY: all-clean-all-test
+all-clean-all-test:
+	@echo Checking all and clean-all targets
+	$(MAKE) -f Makefile all
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); $(MAKE) -f ../Makefile; $(MAKE) all
+	$(MAKE) -f Makefile clean-all
+	cd $(BUILD_DIR); $(MAKE) clean-all
+	$(obj_clean_check)
+	$(pmk_clean_check)
+	rm -rf $(BUILD_DIR)
+
+.PHONY: all-clean-test
+all-clean-test:
+	@echo Checking all and clean targets
+	$(MAKE) -f Makefile all
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); $(MAKE) -f ../Makefile; $(MAKE) all
+	$(MAKE) -f Makefile clean
+	cd $(BUILD_DIR); $(MAKE) clean
+	$(obj_clean_check)
+	rm -rf $(BUILD_DIR)
+	$(MAKE) -f Makefile clean-all
+
+.PHONY: all-clean-pmk-test
+all-clean-pmk-test:
+	@echo Checking all and clean-pmk targets
+	$(MAKE) -f Makefile all
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); $(MAKE) -f ../Makefile; $(MAKE) all
+	$(MAKE) -f Makefile clean-pmk
+	cd $(BUILD_DIR); $(MAKE) clean-pmk
+	$(pmk_clean_check)
+	rm -rf $(BUILD_DIR)
+	$(MAKE) -f Makefile clean-all
+
+.PHONY: header-depends-test
+cxxprog-header-depends-test:
+	@echo Checking C++ program header file dependencies
+	$(MAKE) V=1 CXXPROG2_OUTPUT="first" -f Makefile cxxprog2/cxxprog2
+	@./cxxprog2/cxxprog2 | grep -q first || (echo 'failed to set CXXPROG2_OUTPUT' && exit 1)
+	$(MAKE) V=1 CXXPROG2_OUTPUT="second" -f Makefile cxxprog2/cxxprog2
+	@./cxxprog2/cxxprog2 | grep -q first || (echo 'unexpected recompile' && exit 1)
+	touch cxxprog2/cxxprog2.hpp
+	$(MAKE) V=1 CXXPROG2_OUTPUT="second" -f Makefile cxxprog2/cxxprog2
+	@./cxxprog2/cxxprog2 | grep -q second || (echo 'failed to set CXXPROG2_OUTPUT, or no recompile' && exit 1)
+	$(MAKE) -f Makefile clean-all
