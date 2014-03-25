@@ -9,7 +9,7 @@ endef
 BUILD_DIR := test
 
 .PHONY: all
-all: all-clean-all-test all-clean-test all-clean-pmk-test cxxprog-header-depends-test
+all: all-clean-all-test all-clean-test all-clean-pmk-test cxxprog-header-depends-test cxxprog1-alias-test cxxshlib3-alias-test multi-target-alias-test
 
 .PHONY: all-clean-all-test
 all-clean-all-test:
@@ -58,3 +58,35 @@ cxxprog-header-depends-test:
 	$(MAKE) V=1 CXXPROG2_OUTPUT="second" -f Makefile cxxprog2/cxxprog2
 	@./cxxprog2/cxxprog2 | grep -q second || (echo 'failed to set CXXPROG2_OUTPUT, or no recompile' && exit 1)
 	$(MAKE) -f Makefile clean-all
+
+cxxprog1-alias-test:
+	@echo Checking cxxprog1-alias
+	$(MAKE) cxxprog1-alias
+	test -x cxxprog1/cxxprog1
+	$(MAKE) clean-all
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); $(MAKE) -f ../Makefile; $(MAKE) cxxprog1-alias
+	test -x test/cxxprog1/cxxprog1
+	rm -rf $(BUILD_DIR)
+
+cxxshlib3-alias-test:
+	@echo Checking cxxshlib-alias
+	$(MAKE) -f Makefile cxxshlib3-alias
+	test -e cxxprog1/libcxxshlib3.so
+	$(MAKE) -f Makefile clean-all
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); $(MAKE) -f ../Makefile; $(MAKE) cxxshlib3-alias
+	test -r test/cxxprog1/libcxxshlib3.so
+	rm -rf $(BUILD_DIR)
+
+multi-target-alias-test:
+	@echo Checking multi-target-alias
+	$(MAKE) -f Makefile multi-target-alias
+	test -x cxxprog1/cxxprog1
+	test -e cxxprog1/libcxxshlib3.so
+	$(MAKE) -f Makefile clean-all
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); $(MAKE) -f ../Makefile; $(MAKE) multi-target-alias
+	test -x test/cxxprog1/cxxprog1
+	test -r test/cxxprog1/libcxxshlib3.so
+	rm -rf $(BUILD_DIR)
