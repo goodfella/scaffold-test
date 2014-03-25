@@ -14,8 +14,7 @@ SHLIB_CFLAGS := -Wl$(comma)--defsym=SHLIB_CFLAGS="2"
 
 
 # module.mk files
-SCAFFOLD_MODULES := $(shell find -name 'module.mk')
-
+SCAFFOLD_MODULES := cxxprog1/module.mk cxxprog2/module.mk cxxshlib2/module.mk cxxshlib1/module.mk
 
 # The target specific variables are set here with := so that appending
 # to them is immediatly expanded
